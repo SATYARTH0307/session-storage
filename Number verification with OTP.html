@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)https://velvety-bombolone-dabaf9.netlify.app/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="origin-trial" content="A/kargTFyk8MR5ueravczef/wIlTkbVk1qXQesp39nV+xNECPdLBVeYffxrM8TmZT6RArWGQVCJ0LRivD7glcAUAAACQeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZS5jb206NDQzIiwiZmVhdHVyZSI6IkRpc2FibGVUaGlyZFBhcnR5U3RvcmFnZVBhcnRpdGlvbmluZzIiLCJleHBpcnkiOjE3NDIzNDIzOTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9">
+    
+    <title>Number verification with OTP</title>
+    <style>
+        .container {
+            width: 302px;
+            height: 175px;
+            position: absolute;
+            left: 0px;
+            right: 0px;
+            top: 0px;
+            bottom: 0px;
+            margin: auto;
+        }
+
+        #number,
+        #verificationcode {
+            width: calc (100% 24px);
+            padding: 10px;
+            font-size: 20px;
+            margin-bottom: 5px;
+            outline: none;
+        }
+
+        #recaptcha-container {
+            margin-bottom: 5px;
+        }
+
+        #send,
+        #verify {
+            width: 100%;
+            height: 40px;
+            outline: none;
+        }
+
+        .p-conf,
+        .n-conf {
+            width: calc (100% 22px);
+            border: 2px solid green;
+            border-radius: 4px;
+            padding: 8px 10px;
+            margin: 4px 0px;
+            background-color: rgba(0, 249, 12, 0.5);
+            display: none;
+        }
+
+        .n-conf {
+            border-color: red;
+            background-color: rgba(255, 0, 4, 0.5);
+        }
+    </style>
+<script type="text/javascript" async="" charset="utf-8" src="./Number verification with OTP_files/recaptcha__en.js.download" crossorigin="anonymous" integrity="sha384-fSSiXscmlnEMPiEO6UCIYlhDpU414UbO5yxw7QYGkaD/qBSXeuzmDGEqL4uIOnq8"></script><script type="text/javascript" charset="UTF-8" src="./Number verification with OTP_files/api.js.download"></script></head>
+
+<body>
+    <div class="container">
+        <div id="sender">
+            <input type="text" id="number" placeholder="Enter Phone Number" required="">
+            <div id="recaptcha-container"><div><div style="width: 304px; height: 78px;"><div><iframe title="reCAPTCHA" width="304" height="78" role="presentation" name="a-owdjf4ma6ija" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox allow-storage-access-by-user-activation" src="./Number verification with OTP_files/anchor.html"></iframe></div><textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div><iframe style="display: none;" src="./Number verification with OTP_files/saved_resource.html"></iframe></div></div>
+            <input type="button" id="send" value="Send" onclick="phoneAuth()">
+        </div>
+        <div id="verifier" style="display: none;">
+            <input type="text" id="verificationcode" placeholder="OTP Code">
+            <input type="button" id="verify" value="Verify" onclick="codeverify()">
+            <div class="p-conf">Number Verified</div>
+            <div class="n-conf">OTP ERROR</div>
+        </div>
+    </div>
+    <script src="./Number verification with OTP_files/firebase.js.download"></script>
+    <script>
+       const firebaseConfig = {
+    apiKey: "AIzaSyCFseUAiMa45Uyu_SCfgBsJq9X5iycyE8E",
+    authDomain: "mobile-verification-9afbd.firebaseapp.com",
+    projectId: "mobile-verification-9afbd",
+    storageBucket: "mobile-verification-9afbd.appspot.com",
+    messagingSenderId: "416828494563",
+    appId: "1:416828494563:web:8ddc8ccb6b65a3ddb96bd6",
+    measurementId: "G-Y2EH50BSXE"
+  };
+        firebase.initializeApp(firebaseConfig);
+        render();
+        function render() {
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+            recaptchaVerifier.render();
+        }
+        function phoneAuth() {
+            var number = document.getElementById('number').value;
+            firebase.auth().signInWithPhoneNumber(number,
+                window.recaptchaVerifier).then(function (confirmationResult) {
+                    window.confirmationResult = confirmationResult;
+                    coderesult = confirmationResult;
+                    document.getElementById('sender').style.display = 'none';
+                    document.getElementById('verifier').style.display = 'block';
+                }).catch(function (error) {
+                    alert(error.message);
+                });
+        }
+        function codeverify() {
+            var code = document.getElementById('verificationcode').value;
+            coderesult.confirm(code).then(function () {
+                document.getElementsByClassName('p-conf')[0].style.display = 'block';
+                document.getElementsByClassName('n-conf')[0].style.display = 'none';
+            }).catch(function () {
+                document.getElementsByClassName('p-conf')[0].style.display = 'none';
+                document.getElementsByClassName('n-conf')[0].style.display = 'block';
+            })
+        }
+    </script>
+
+
+<div style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 3px; position: absolute; transition: visibility 0s linear 0.3s, opacity 0.3s linear 0s; opacity: 0; visibility: hidden; z-index: 2000000000; left: 0px; top: -10000px;"><div style="width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 2000000000; background-color: rgb(255, 255, 255); opacity: 0.05;"></div><div class="g-recaptcha-bubble-arrow" style="border: 11px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -11px; z-index: 2000000000;"></div><div class="g-recaptcha-bubble-arrow" style="border: 10px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -10px; z-index: 2000000000;"></div><div style="z-index: 2000000000; position: relative;"><iframe title="recaptcha challenge expires in two minutes" name="c-owdjf4ma6ija" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox allow-storage-access-by-user-activation" src="./Number verification with OTP_files/bframe.html" style="width: 100%; height: 100%;"></iframe></div></div></body></html>
